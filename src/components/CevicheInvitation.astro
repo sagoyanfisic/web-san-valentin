@@ -4,9 +4,10 @@
 
 <style is:global>
   :root {
-    --color-primary: #ff6b6b;
-    --color-secondary: #4ecdc4;
-    --color-accent: #ffe66d;
+    --color-love: #ff3f3f;
+    --color-fresh: #4cd964;
+    --color-spark: #ffd700;
+    --color-ocean: #00a8ff;
   }
 
   @keyframes float {
@@ -15,25 +16,19 @@
     100% { transform: translateY(0px) rotate(0deg); }
   }
 
-  @keyframes star-rotate {
-    0% { transform: rotate(0deg) scale(1); }
-    100% { transform: rotate(360deg) scale(1.2); }
-  }
-
-  @keyframes confetti {
+  @keyframes lemon-fall {
     0% { transform: translateY(-100vh) rotate(0deg); opacity: 1; }
-    100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+    100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
   }
 
-  @keyframes title-bounce {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-20px); }
+  @keyframes quantum-spark {
+    0% { opacity: 1; transform: scale(0) rotate(0deg); }
+    100% { opacity: 0; transform: scale(3) rotate(720deg); }
   }
 
-  @keyframes button-dance {
-    0%, 100% { transform: rotate(0deg); }
-    25% { transform: rotate(3deg); }
-    75% { transform: rotate(-3deg); }
+  @keyframes wave {
+    0% { transform: translateX(-50%); }
+    100% { transform: translateX(0%); }
   }
 
   .container {
@@ -57,15 +52,11 @@
     cursor: pointer;
     transition: transform 0.3s ease;
     position: relative;
-    overflow: hidden;
+    z-index: 2;
   }
 
   .ceviche-animation:hover {
-    transform: scale(1.05) rotate(5deg);
-  }
-
-  .ceviche-animation:active {
-    animation: star-rotate 0.5s ease-in-out;
+    transform: scale(1.05);
   }
 
   .title {
@@ -73,19 +64,21 @@
     color: white;
     text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
     margin: 2rem 0;
-    animation: title-bounce 2s ease-in-out infinite;
     font-family: 'Comic Neue', cursive;
+    position: relative;
+    z-index: 2;
   }
 
   .button-container {
     display: flex;
     gap: 2rem;
     margin-top: 2rem;
-    perspective: 1000px;
+    position: relative;
+    z-index: 2;
   }
 
   .accept-btn {
-    background: linear-gradient(45deg, #4ecdc4, #45b7af);
+    background: linear-gradient(45deg, var(--color-fresh), #45b7af);
     padding: 1.5rem 3rem;
     border: none;
     border-radius: 30px;
@@ -93,85 +86,55 @@
     font-size: 1.5rem;
     cursor: pointer;
     transition: all 0.3s ease;
-    transform-style: preserve-3d;
     position: relative;
     overflow: hidden;
-    animation: button-dance 2s ease-in-out infinite;
-  }
-
-  .accept-btn:hover {
-    transform: scale(1.1) rotate(2deg);
-    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-  }
-
-  .accept-btn::after {
-    content: '🐟';
-    position: absolute;
-    right: -20px;
-    top: -20px;
-    font-size: 2rem;
-    opacity: 0;
-    transition: all 0.3s ease;
-  }
-
-  .accept-btn:hover::after {
-    opacity: 1;
-    right: 10px;
-    top: 10px;
   }
 
   .deny-btn {
-    background: linear-gradient(45deg, #ff6b6b, #ff5252);
+    background: linear-gradient(45deg, var(--color-love), #ff5252);
     padding: 1.5rem 3rem;
     border: none;
     border-radius: 30px;
     color: white;
     font-size: 1.5rem;
     cursor: not-allowed;
-    opacity: 0.8;
-    transition: all 0.3s ease;
+    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
     position: relative;
   }
 
-  .deny-btn:hover {
-    animation: shake 0.5s ease-in-out;
+  .lemon-particle {
+    position: fixed;
+    font-size: 1.2rem;
+    opacity: 0.7;
+    pointer-events: none;
+    animation: lemon-fall linear infinite;
+    z-index: 1;
   }
 
-  .stars {
+  .quantum-spark {
     position: absolute;
-    width: 100%;
-    height: 100%;
+    width: 15px;
+    height: 15px;
+    background: radial-gradient(circle, var(--color-spark) 20%, transparent 70%);
+    mix-blend-mode: screen;
+    animation: quantum-spark 0.8s ease-out;
     pointer-events: none;
   }
 
-  .star {
+  .ocean-wave {
     position: absolute;
-    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23ffe66d"><path d="M12 0l3.09 6.26L22 7.27l-5 4.87 1.18 6.88L12 16l-6.18 3.02L7 12.14 2 7.27l6.91-1.01L12 0z"/></svg>');
-    background-size: contain;
-    animation: star-float 8s linear infinite;
-  }
-
-  @keyframes star-float {
-    0% {
-      transform: translateY(100vh) rotate(0deg);
-      opacity: 0;
-    }
-    50% {
-      opacity: 1;
-    }
-    100% {
-      transform: translateY(-100vh) rotate(720deg);
-      opacity: 0;
-    }
-  }
-
-  .confetti {
-    position: absolute;
-    width: 10px;
-    height: 10px;
-    background: var(--color-accent);
-    animation: confetti 3s linear forwards;
-    opacity: 0;
+    bottom: 0;
+    width: 300%;
+    height: 12rem;
+    background-image: linear-gradient(
+      to right,
+      var(--color-ocean) 20%,
+      transparent 50%,
+      var(--color-ocean) 80%
+    );
+    animation: wave 15s linear infinite;
+    opacity: 0.1;
+    z-index: 1;
   }
 
   @media (max-width: 768px) {
@@ -187,60 +150,102 @@
 </style>
 
 <div class="container">
-  <!-- Estrellas flotantes de fondo -->
-  <div class="stars">
-    <div class="star" style="left: 10%; animation-delay: 0s"></div>
-    <div class="star" style="left: 30%; animation-delay: 2s"></div>
-    <div class="star" style="left: 50%; animation-delay: 4s"></div>
-    <div class="star" style="left: 70%; animation-delay: 6s"></div>
-    <div class="star" style="left: 90%; animation-delay: 8s"></div>
-  </div>
+  <div class="ocean-wave"></div>
+  <div class="ocean-wave" style="animation-delay: -5s"></div>
 
   <img 
     src="https://images.unsplash.com/photo-1535399831218-d5bd36d1a6b3" 
     class="ceviche-animation"
     alt="Ceviche Peruano"
+    id="cevicheImage"
   />
 
   <h1 class="title">
-    ¿Ceviche este <span style="color: var(--color-accent)">❤️ San Valentín</span>?
+    ¿Ceviche este <span style="color: var(--color-spark)">❤️ San Valentín</span>?
   </h1>
 
   <div class="button-container">
-    <button class="accept-btn">¡Sí, vamos! 🎉</button>
-    <button class="deny-btn">😢 No puedo</button>
+    <button class="accept-btn" id="acceptBtn">¡Sí, vamos! 🎉</button>
+    <button class="deny-btn" id="denyBtn">😢 No puedo</button>
   </div>
 </div>
 
 <script>
   document.addEventListener('DOMContentLoaded', () => {
-    const acceptBtn = document.querySelector('.accept-btn');
-    const cevicheImage = document.querySelector('.ceviche-animation');
-    
-    // Efecto de confeti al aceptar
-    acceptBtn.addEventListener('click', () => {
-      for(let i = 0; i < 50; i++) {
-        const confetti = document.createElement('div');
-        confetti.className = 'confetti';
-        confetti.style.left = Math.random() * 100 + '%';
-        confetti.style.animationDelay = Math.random() * 1 + 's';
-        confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 70%, 60%)`;
-        document.body.appendChild(confetti);
-        
-        setTimeout(() => confetti.remove(), 3000);
-      }
-      
-      setTimeout(() => {
-        alert('🎉 ¡Perfecto! Preparando mesa con vista al mar... 🏖️');
-      }, 500);
-    });
+    const acceptBtn = document.getElementById('acceptBtn');
+    const denyBtn = document.getElementById('denyBtn');
+    const cevicheImage = document.getElementById('cevicheImage');
 
-    // Efecto especial al tocar la imagen
-    cevicheImage.addEventListener('click', () => {
-      cevicheImage.style.animation = 'star-rotate 0.8s ease-in-out';
+    // Función para crear limones
+    const createLemons = (x, y) => {
+      for(let i = 0; i < 15; i++) {
+        const lemon = document.createElement('div');
+        lemon.className = 'lemon-particle';
+        lemon.textContent = '🍋';
+        lemon.style.left = `${x + (Math.random() * 200 - 100)}px`;
+        lemon.style.animationDuration = `${Math.random() * 3 + 2}s`;
+        document.body.appendChild(lemon);
+        setTimeout(() => lemon.remove(), 5000);
+      }
+    };
+
+    // Efecto de limones al hacer clic en la imagen
+    cevicheImage.addEventListener('click', (e) => {
+      createLemons(e.clientX, e.clientY);
+      cevicheImage.style.animation = 'float 3s ease-in-out, spin 1s linear';
       setTimeout(() => {
         cevicheImage.style.animation = 'float 3s ease-in-out infinite';
-      }, 800);
+      }, 1000);
+    });
+
+    // Efecto de limones y chispas al aceptar
+    acceptBtn.addEventListener('click', (e) => {
+      const rect = e.target.getBoundingClientRect();
+      const x = rect.left + rect.width / 2;
+      const y = rect.top + rect.height / 2;
+      
+      // Lluvia de limones
+      createLemons(x, y);
+
+      // Efecto de chispas
+      for(let i = 0; i < 30; i++) {
+        const spark = document.createElement('div');
+        spark.className = 'quantum-spark';
+        spark.style.left = `${x}px`;
+        spark.style.top = `${y}px`;
+        document.body.appendChild(spark);
+        
+        spark.animate([
+          { transform: `translate(${Math.random()*200 - 100}px, ${Math.random()*200 - 100}px)` }
+        ], { duration: 800 });
+        
+        setTimeout(() => spark.remove(), 800);
+      }
+
+      setTimeout(() => {
+        alert('🎉 ¡Reserva confirmada! Nos vemos a las 8 PM 🍽️');
+      }, 300);
+    });
+
+    // Sistema de evasión del botón rojo
+    document.addEventListener('mousemove', (e) => {
+      const btnRect = denyBtn.getBoundingClientRect();
+      const btnCenterX = btnRect.left + btnRect.width / 2;
+      const btnCenterY = btnRect.top + btnRect.height / 2;
+      const distance = Math.hypot(e.clientX - btnCenterX, e.clientY - btnCenterY);
+
+      if (distance < 150) {
+        const angle = Math.atan2(e.clientY - btnCenterY, e.clientX - btnCenterX);
+        const newX = btnCenterX + Math.cos(angle) * 100;
+        const newY = btnCenterY + Math.sin(angle) * 100;
+        
+        denyBtn.style.transform = `translate(
+          ${newX - btnCenterX}px,
+          ${newY - btnCenterY}px
+        )`;
+      } else {
+        denyBtn.style.transform = 'translate(0, 0)';
+      }
     });
   });
 </script>
